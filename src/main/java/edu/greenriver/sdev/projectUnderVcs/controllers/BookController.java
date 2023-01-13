@@ -28,7 +28,7 @@ public class BookController
                     607),
             new Book("Eric Carle",
                     "THe Very Hungry Caterpillar",
-                    32)
+                    320)
 
     );
 
