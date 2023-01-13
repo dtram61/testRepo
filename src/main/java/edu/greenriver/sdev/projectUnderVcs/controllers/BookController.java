@@ -1,40 +1,44 @@
 package edu.greenriver.sdev.projectUnderVcs.controllers;
 
 import edu.greenriver.sdev.projectUnderVcs.model.Book;
-import org.springframework.stereotype.Controller;
+import edu.greenriver.sdev.projectUnderVcs.services.BookService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @RestController
-public class BookController
-{
-    private List<Book> bookslist = List.of(
-         new Book("Andrzej Sapkowski",
-                 "The Sword of Destiny" ,
-                 384),
-            new Book("Randall Garrett",
-                    "Lord d'Arcy Investigates",
-                    229),
-            new Book("Frank Herbert",
-                    "Dune",
-                    412),
-            new Book("Joseph Murphy",
-                    "Powers of the Subconscious Mind",
-                    387),
-            new Book("JK Rowling",
-                    "Harry Potter and the Deathly Hallows",
-                    607),
-            new Book("Eric Carle",
-                    "THe Very Hungry Caterpillar",
-                    320)
+public class BookController {
 
-    );
+    private BookService service;
+
+    public BookController(BookService service) {
+        this.service = service;
+    }
 
     @GetMapping("books")
-    public List<Book> getAllBooks()
+    public List<Book> getAllBooks() {
+        return service.getEveryBook();
+    }
+
+    @GetMapping("books/random")
+
+    public Book getRandomBook() {
+      return service.random();
+    }
+
+    @GetMapping("books/by-name/{bookName}")
+    public Book getBooksByName(@PathVariable String bookName) {
+       return service.byName(bookName);
+
+    }
+
+    @GetMapping("books/by-pages/{pageTotal}")
+    public List<Book> getLongerBooksByPages(@PathVariable int pageTotal)
     {
-        return bookslist;
+      return service.byPages(pageTotal);
     }
 }
